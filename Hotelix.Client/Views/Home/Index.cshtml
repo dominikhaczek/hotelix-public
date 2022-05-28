@@ -1,0 +1,21 @@
+﻿@model HomeViewModel
+
+@{
+    ViewData["Title"] = "Strona główna";
+}
+
+<div class="text-center">
+    <h2 class="welcome-text">Witaj w Hotelix!</h2>
+    <p><a class=" btn btn-outline-primary" asp-controller="Room" asp-action="List" asp-route-category="" style="font-size: 20px;">Wybierz swój pokój <i class="fas fa-arrow-circle-right"></i></a></p>
+</div>
+
+<partial name="_Carousel" />
+
+<div class="row">
+
+    @foreach (var room in @Model.FeaturedRooms)
+    {
+        <partial name="_RoomCard" model="@new RoomAddToOrderFormViewModel {Room = room}" />
+    }
+
+</div>

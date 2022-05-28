@@ -1,0 +1,50 @@
+﻿@model Hotelix.Client.Models.Api.Reservation
+
+@{
+    ViewData["Title"] = "Podgląd rezerwacji";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+
+<div class="row datatable-container">
+    <table class="display nowrap dataTable collapsed" style="width:100%">
+        <thead>
+        <tr>
+            @if (!User.IsInRole("Klient"))
+            {
+                <th>Klient</th>
+            }
+            <th>Pokój</th>
+            <th>Cena</th>
+            <th>Termin</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            @if (!User.IsInRole("Klient"))
+            {
+                <td>
+                    @Model.ClientName @Model.ClientSurname
+                </td>
+            }
+            <td>
+                <div class="d-flex align-items-center">
+                    <div>
+                        <img src="@Model.ImageUrl" alt="@Model.Name" class="img-responsive img-thumbnail" style="height: 100px; width: 150px; object-fit: cover;"/>
+                    </div>
+                    <div style="white-space: normal; max-width: 200px; padding-left: 10px;">
+                        @Model.Name
+                    </div>
+                </div>
+            </td>
+            <td>
+                @Model.PricePerNight.ToString("#######.00 zł")
+            </td>
+            <td>
+                @Model.StartTime.ToString("dd.MM.yyyy") - @Model.EndTime.ToString("dd.MM.yyyy")
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>

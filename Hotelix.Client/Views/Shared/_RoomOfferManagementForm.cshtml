@@ -1,0 +1,88 @@
+﻿@model AddEditRoomModel
+
+<div class="row">
+    <div class="col-md-6">
+
+        <div class="form-group">
+            <label asp-for="Room.LocationId" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <select asp-for="Room.LocationId" asp-items="@ViewBag.LocationsList">
+                </select>
+                <span asp-validation-for="Room.LocationId" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Room.Name" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Room.Name" class="form-control" />
+                <span asp-validation-for="Room.Name" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Room.PricePerNight" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Room.PricePerNight" class="form-control" />
+                <span asp-validation-for="Room.PricePerNight" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Room.GuestLimit" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Room.GuestLimit" class="form-control" />
+                <span asp-validation-for="Room.GuestLimit" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="Room.BedType" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Room.BedType" class="form-control" />
+                <span asp-validation-for="Room.BedType" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Room.Description" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Room.Description" class="form-control" />
+                <span asp-validation-for="Room.Description" class="text-danger"></span>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label asp-for="Room.ImageUrl" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Room.ImageUrl" class="form-control" />
+                <span asp-validation-for="Room.ImageUrl" class="text-danger"></span>
+            </div>
+        </div>
+
+        @*        <div class="form-group">
+            <label asp-for="Image" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Image" class="form-control" />
+                <span asp-validation-for="Image" class="text-danger"></span>
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <label asp-for="Room.StartTime" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Room.StartTime" class="form-control" />
+                <span asp-validation-for="Room.StartTime" class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Room.EndTime" class="col-md-5 control-label"></label>
+            <div class="col-md-8">
+                <input asp-for="Room.EndTime" class="form-control" />
+                <span asp-validation-for="Room.EndTime" class="text-danger"></span>
+            </div>
+        </div>
+    </div>
+
+</div>

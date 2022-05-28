@@ -1,0 +1,70 @@
+﻿@using IdentityServer4.Extensions
+@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@{
+    string name = null;
+    if (!true.Equals(ViewData["signed-out"]))
+    {
+        name = Context.User?.GetDisplayName();
+    }
+}
+
+@*<div class="nav-page">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+        <a href="~/" class="navbar-brand">
+            <img src="~/logo.png" class="icon-banner" height="40">
+        </a>
+        
+        <form class="form-inline">
+            <a class="btn btn-secondary" type="button">Wróć do strony głównej Hotelix</a>
+        </form>
+
+        @if (!string.IsNullOrWhiteSpace(name))
+        {
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item dropdown">
+
+                    <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
+
+                    <div class="dropdown-menu">
+                        <a class="dropdown-item" asp-action="Logout" asp-controller="Account">Logout</a>
+                    </div>
+                </li>
+            </ul>
+        }
+    
+    </nav>
+</div>*@
+
+
+<header>
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-dark bg-dark">
+        <div class="container">
+            <a href="@Configuration["ApiConfigs:Client:Uri"]" class="navbar-brand"><img src="~/logo.png" height="36" /></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                <form class="form-inline">
+                    <a href="@Configuration["ApiConfigs:Client:Uri"]" class="btn btn-info">Wróć do strony głównej Hotelix</a>
+                </form>
+                @*if (!string.IsNullOrWhiteSpace(name))
+                {
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+
+                            <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">@name <b class="caret"></b></a>
+
+                            <div class="dropdown-menu">
+                                <a class="dropdown-item" asp-action="Logout" asp-controller="Account">Logout</a>
+                            </div>
+                        </li>
+                    </ul>
+                }*@
+            </div>
+        </div>
+    </nav>
+</header>

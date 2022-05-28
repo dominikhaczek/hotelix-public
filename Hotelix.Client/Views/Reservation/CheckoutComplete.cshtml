@@ -1,0 +1,18 @@
+﻿@{
+    ViewData["Title"] = "Podsumowanie rezerwacji";
+}
+
+<div class="jumbotron">
+
+    <h1></h1>
+    <h1 class="display-4">@ViewBag.CheckoutCompleteMsg</h1>
+    <p class="lead">Pamiętaj, że możesz się zameldować od godziny 14:00. Wymeldowanie natomiast musi nastąpić do godziny 12:00.</p>
+    <hr class="my-4">
+    <p>Jeżeli chcesz podglądnąć szczegóły twojej rezerwacji, skorzystaj z przycisku poniżej:</p>
+    <p class="lead">
+        <a asp-controller="ReservationManagement"
+           asp-action="Index"
+           class="btn btn-primary btn-lg" role="button">Zobacz moje rezerwacje</a>
+    </p>
+    <p>Do zobaczenia!</p>
+</div>

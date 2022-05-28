@@ -1,0 +1,125 @@
+﻿@model OfferManagementModel
+
+@{
+    ViewData["Title"] = "Zarządzaj ofertą";
+}
+
+<partial name="_RemoveConfirmationModal" />
+
+<div class="jumbotron">
+    <div class="row">
+    <div class="col-md-8">
+        <h1 class="display-5">Panel zarządzania ofertą</h1>
+        <p class="lead">Z tego poziomu możesz zmieniać ofertę dostępnych pokojów</p>
+    </div>
+
+        <div class="col-md-4 d-flex flex-row justify-content-center align-items-center">
+            <div class="btn-group" role="group">
+                <button id="btnGroupAddNewPosition" type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+                    Dodaj nową pozycję
+                </button>
+                <div class="dropdown-menu" aria-labelledby="btnGroupAddNewPosition">
+                    <a class="dropdown-item" asp-controller="OfferManagement" asp-action="AddRoom">Dodaj pokój</a>
+                    @*<a class="dropdown-item" asp-controller="OfferManagement" asp-action="AddAdditionalOption">Dodaj opcję dodatkową</a>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<ul class="nav nav-tabs" id="offerManagementTabs" role="tablist" style="margin-top: 20px;">
+    <li class="nav-item" role="presentation">
+        <a class="nav-link active" id="rooms-tab" data-toggle="tab" href="#rooms" role="tab" aria-controls="rooms" aria-selected="true">Pokoje</a>
+    </li>
+</ul>
+
+
+<div class="tab-content" id="offerManagementTabsContent">
+    <div class="tab-pane fade show active row datatable-container" id="rooms" role="tabpanel" aria-labelledby="rooms-tab" style="margin-top: 0;">
+        <table id="manage-rooms-all" class="display nowrap dataTable collapsed" style="width:100%">
+            <thead>
+            <tr>
+                <th>Pokój</th>
+                <th>Lokalizacja</th>
+                <th>Cena</th>
+                <th>Widoczny</th>
+                <th>Akcje</th>
+            </tr>
+            </thead>
+            <tbody>
+            @foreach (var room in Model.RoomEnum)
+            {
+                <tr>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            <div>
+                                <img src="@room.ImageUrl" alt="@room.Name" class="img-responsive img-thumbnail" style="height: 100px; width: 150px; object-fit: cover;"/>
+                            </div>
+                            <div style="white-space: normal; max-width: 200px; padding-left: 10px;">
+                                @room.Name
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        @room.Location
+                    </td>
+                    <td>
+                        @room.PricePerNight.ToString("#######.00 zł")
+                    </td>
+                    <td>
+                        @if (!room.IsHidden)
+                        {
+                            <span>Tak</span>
+                        }
+                        else
+                        {
+                            <span style="color:red; font-weight: bolder;">Nie</span>
+                        }
+                    </td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <button id="btnGroupActionsRooms" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Akcje
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="btnGroupActionsRooms">
+                                <a asp-action="EditRoom"
+                                   asp-route-roomId="@room.Id" class="dropdown-item">
+                                    Edytuj
+                                </a>
+                                @if (!room.IsHidden)
+                                {
+                                    <a asp-controller="OfferManagement" asp-action="RemoveRoom"
+                                       asp-route-roomId="@room.Id" class="dropdown-item"
+                                       data-toggle="modal" data-target="#remove-confirmation-modal"
+                                       data-item-name="@room.Name">
+                                        Usuń
+                                    </a>
+                                }
+                                else
+                                {
+                                    <a asp-controller="OfferManagement" asp-action="BringBackRoom"
+                                       asp-route-roomId="@room.Id" class="dropdown-item">
+                                        Przywróć
+                                    </a>
+                                }
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_DataTableConfig" />
+}
+
+<script>
+    $(document).ready(function () {
+        $('#manage-rooms-all').DataTable(dataTableConfig);
+    });
+</script>

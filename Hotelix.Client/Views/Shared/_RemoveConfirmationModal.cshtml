@@ -1,0 +1,32 @@
+﻿<div id="remove-confirmation-modal" class="modal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Usuwanie pozycji</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz usunąć tę pozycję?</p>
+                <p class="name-of-removing-item"><strong></strong></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Nie</button>
+                <a class="btn btn-primary" href="#">Tak</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        $('#remove-confirmation-modal').on('show.bs.modal', function (event) {
+            var button = $(event.relatedTarget);
+            var afterConfirmationTarget = button.attr('href');
+            var nameOfRemovingItem = button.data('item-name');
+            $(this).find('.btn-primary').attr('href', afterConfirmationTarget);
+            $(this).find('.name-of-removing-item strong').text(nameOfRemovingItem);
+        });
+    });
+</script>

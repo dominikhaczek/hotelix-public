@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotelix-database
+spec:
+  selector:
+    matchLabels:
+      app: hotelix-database
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hotelix-database
+    spec:      
+      containers:
+      - name: hotelixdb
+        image: dominqo/hotelix_database
+        ports:
+        - containerPort: 1433
+        # resources:
+        #   limits:
+        #     memory: "512Mi"
+        #     cpu: "200m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hotelixdb-service
+spec:
+  selector:
+    app: hotelix-database  
+  type: ClusterIP  
+  ports:
+    - protocol: TCP 
+      port: 1433
+      targetPort: 1433

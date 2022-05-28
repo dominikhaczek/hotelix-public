@@ -1,0 +1,86 @@
+version: '3.4'
+
+services:
+  reverseproxy:
+    build:
+      context: .
+      dockerfile: nginx/nginx.Dockerfile
+    depends_on:
+      - hotelix.identityserver
+    ports:
+      - "44395:44395"
+    networks:
+      hotelixnet:
+        aliases:
+          - "id-local.hotelix.one"
+          - "hotelix.one"
+
+  hotelix.identityserver:
+    image: ${DOCKER_REGISTRY-}hotelixidentityserver
+    build:
+      context: .
+      dockerfile: Hotelix.IdentityServer/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://*:5000
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5000:5000"
+    networks:
+      - hotelixnet
+
+  hotelix.client:
+    build:
+      context: .
+      dockerfile: Hotelix.Client/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://*:5005
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5005:5005"
+    networks:
+      - hotelixnet
+
+  hotelix.offer:
+    build:
+      context: .
+      dockerfile: Hotelix.Offer/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://*:5006
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5006:5006"
+    networks:
+      - hotelixnet
+
+  hotelix.reservations:
+    build:
+      context: .
+      dockerfile: Hotelix.Reservations/Dockerfile
+    environment:
+      - ASPNETCORE_URLS=http://*:5007
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "5007:5007"
+    networks:
+      - hotelixnet
+
+  seq:
+    image: datalust/seq
+    restart: unless-stopped
+    ports:
+      - "5342:80"
+    environment:
+      - ACCEPT_EULA=Y
+    networks:
+      - hotelixnet
+
+  sqlserverdb:
+    image: dominqo/hotelix_database
+    restart: unless-stopped
+    ports: 
+      - "1435:1433"
+    networks:
+      - hotelixnet
+
+networks:
+  hotelixnet: {}

@@ -1,0 +1,109 @@
+﻿@*@using Microsoft.AspNetCore.Identity
+@inject UserManager<IdentityUser> UserManager*@
+
+@model IEnumerable<Hotelix.Client.Models.Api.Reservation>
+
+@{
+    ViewData["Title"] = "Zarządzaj rezerwacjami";
+}
+
+<partial name="_RemoveConfirmationModal" />
+
+<div class="jumbotron">
+    <div class="row">
+        <div class="col-md-12">
+            <h1 class="display-5">Panel zarządzania rezerwacją</h1>
+            @if (!User.IsInRole("Klient"))
+            {
+                <p class="lead">Przeglądaj rezerwacje złożone przez klientów i zarządzaj nimi</p>
+            }
+            else
+            {
+                <p class="lead">Przeglądaj swoje rezerwacje i zarządzaj nimi</p>
+            }
+        </div>
+    </div>
+</div>
+
+
+<div class="row datatable-container">
+    <table id="manage-reservations-all" class="display nowrap dataTable collapsed" style="width:100%">
+        <thead>
+        <tr>
+            @if (!User.IsInRole("Klient"))
+            {
+                <th>Klient</th>
+            }
+            <th>Pokój</th>
+            <th>Cena</th>
+            <th>Termin</th>
+            <th>Akcje</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var reservation in Model)
+        {
+            <tr>
+                @if (!User.IsInRole("Klient"))
+                {
+                    <td>
+                        @reservation.ClientName @reservation.ClientSurname
+                    </td>
+                }
+                <td>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <img src="@reservation.ImageUrl" alt="@reservation.Name" class="img-responsive img-thumbnail" style="height: 100px; width: 150px; object-fit: cover;" />
+                        </div>
+                        <div style="white-space: normal; max-width: 200px; padding-left: 10px;">
+                            @reservation.Name
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    @reservation.PricePerNight.ToString("#######.00 zł")
+                </td>
+                <td>
+                    @reservation.StartTime.ToString("dd.MM.yyyy") - @reservation.EndTime.ToString("dd.MM.yyyy")
+                </td>
+                <td>
+                    <div class="btn-group" role="group">
+                        <button id="btnGroupActions" type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Akcje
+                        </button>
+                        <div class="dropdown-menu" aria-labelledby="btnGroupActions">
+                            <a asp-controller="ReservationManagement" asp-action="Details"
+                               asp-route-id="@reservation.Id" class="dropdown-item">
+                                Podgląd
+                            </a>
+                            @if (User.IsInRole("Klient") && reservation.StartTime >= DateTime.Now.AddHours(12) ||
+                                 !User.IsInRole("Klient") && reservation.StartTime >= DateTime.Now)
+                            {
+                                <a asp-controller="ReservationManagement" asp-action="Delete"
+                                   asp-route-id="@reservation.Id" class="dropdown-item"
+                                   data-toggle="modal" data-target="#remove-confirmation-modal"
+                                   data-item-name="
+                                        @if (!User.IsInRole("Klient")) { @string.Concat(reservation.ClientName, " ", reservation.ClientSurname, ",") }
+                                        @reservation.Name, @reservation.StartTime.ToString("dd.MM.yyyy") -
+                                        @reservation.EndTime.ToString("dd.MM.yyyy")">
+                                    Usuń
+                                </a>
+                            }
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+</div>
+
+@section Scripts {
+    <partial name="_DataTableConfig" />
+}
+
+<script>
+    $(document).ready(function () {
+        $('#manage-reservations-all').DataTable(dataTableConfig);
+    });
+</script>

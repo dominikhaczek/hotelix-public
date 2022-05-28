@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotelix-seq
+spec:
+  selector:
+    matchLabels:
+      app: hotelix-seq
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hotelix-seq
+    spec:      
+      containers:
+      - name: seq
+        image: datalust/seq:latest
+        ports:
+        - containerPort: 5341
+        - containerPort: 80
+        env:
+        - name: ACCEPT_EULA
+          value: "Y"        
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hotelixseq-service
+spec:
+  selector:
+    app: hotelix-seq  
+  type: ClusterIP  
+  ports:
+    - protocol: TCP 
+      port: 80
+      targetPort: 80  
+  
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hotelixseqlog-service
+spec:
+  clusterIP: None # headless service
+  selector:
+    app: hotelix-seq
+  ports:
+    - protocol: TCP
+      port: 5341
+      targetPort: 5341

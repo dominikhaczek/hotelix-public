@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hotelix-reservations
+spec:
+  selector:
+    matchLabels:
+      app: hotelix-reservations
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: hotelix-reservations
+    spec:
+      containers:
+      - name: hotelixreservations
+        image: localhost:5000/dominqo/hotelix_reservations:latest        
+        # envFrom:
+        #   - configMapRef:
+        #       name: globo-identity-config
+        #   - secretRef:
+        #       name: globoconn-secrets 
+        env:
+          - name: ConnectionStrings__DefaultConnection
+            value: "Server=hotelixdb-service;Database=HotelixReservationsDb;User Id=sa;Password=VeryStrongPassword1(!);MultipleActiveResultSets=true;"     
+          - name: ApiConfigs__Offer__Uri
+            value: "https://hotelix.one/api/offer/"
+          - name: ApiConfigs__IdentityServer__Uri
+            value: "https://id-local.hotelix.one/"
+          - name: ApiConfigs__Seq__Uri
+            value: "http://hotelixseqlog-service:5341/"
+        # livenessProbe:
+        #   httpGet:
+        #     path: /.well-known/openid-configuration
+        #     port: 80
+        #   initialDelaySeconds: 20
+        #   timeoutSeconds: 5
+        #   periodSeconds: 10
+        #   failureThreshold: 3
+        # readinessProbe:
+        #   httpGet:
+        #     path: /.well-known/openid-configuration
+        #     port: 80
+        #   initialDelaySeconds: 20
+        #   timeoutSeconds: 5
+        #   periodSeconds: 10
+        #   failureThreshold: 3       
+        resources:
+          limits:
+            memory: "228Mi"
+            cpu: "200m"
+        ports:
+        - containerPort: 80
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: hotelixreservations-service
+spec:
+  selector:
+    app: hotelix-reservations  
+  type: ClusterIP
+  ports:
+    - protocol: TCP 
+      port: 5002
+      targetPort: 80

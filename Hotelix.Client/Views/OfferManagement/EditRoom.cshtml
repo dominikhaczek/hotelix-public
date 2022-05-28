@@ -1,0 +1,25 @@
+﻿@model AddEditRoomModel
+
+@{
+    ViewData["Title"] = "Edytuj pokój";
+}
+<div class="jumbotron">
+    <form asp-action="EditRoom" method="post" class="form-horizontal" role="form" enctype="multipart/form-data">
+        <h4>@ViewData["Title"]</h4>
+        
+        <hr/>
+
+        <div asp-validation-summary="All" class="text-danger"></div>
+
+        @Html.HiddenFor(m => m.Room.Id)
+
+        <partial name="_RoomOfferManagementForm" model="Model" />
+
+        <div class="form-group">
+            <div class="col text-center">
+                <input type="submit" class="btn btn-primary" value="Zapisz" />
+            </div>
+        </div>
+
+    </form>
+</div>

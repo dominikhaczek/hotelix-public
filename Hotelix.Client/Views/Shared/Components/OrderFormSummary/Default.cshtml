@@ -1,0 +1,8 @@
+﻿@model OrderFormViewModel
+
+@if (Model.OrderForm != null && ViewContext.RouteData.Values["controller"]?.ToString() != "OrderForm")
+{
+    <a asp-controller="OrderForm" asp-action="Index" class="floating-fixed-button">
+        <i class="fas fa-shopping-cart"></i> Dokończ rezerwację
+    </a>
+} 

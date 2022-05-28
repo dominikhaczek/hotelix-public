@@ -1,0 +1,11 @@
+﻿@model AlertModel
+
+@if (!string.IsNullOrEmpty(Model.Type) && !string.IsNullOrEmpty(Model.Message))
+{
+    <div class="alert alert-@Model.Type alert-dismissible fade show" role="alert">
+        @Model.Message
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+}

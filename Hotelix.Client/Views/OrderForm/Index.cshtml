@@ -1,0 +1,90 @@
+﻿@model OrderFormViewModel
+
+@{
+    ViewData["Title"] = "Twoja rezerwacja";
+}
+
+@if (Model.OrderForm != null)
+{
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="display-5">Oto twoja rezerwacja</h1>
+            </div>
+        </div>
+    </div>
+
+    <table class="table table-bordered table-striped table-light shopping-cart">
+        <thead>
+            <tr>
+                <th>Pozycja</th>
+                <th>Od</th>
+                <th>Do</th>
+                <th class="text-right">Cena</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+                <tr>
+                    <td class="text-left">
+                        <div class="row">
+                            <div class="col-md-4">
+                                <img src="@Model.OrderForm.GetRoom().ImageUrl" alt="@Model.OrderForm.GetRoom().Name" class="img-responsive img-thumbnail" />
+                            </div>
+                            <div class="col-md-8">
+                                <h4 class="center-block">@Model.OrderForm.GetRoom().Name</h4>
+                                <p><b>Cena/dobę:</b> @Model.OrderForm.GetRoom().PricePerNight.ToString("#######.00 zł")</p>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="text-center">
+                        @Model.OrderForm.GetStartTime().ToString("dd.MM.yyyy")
+                    </td>
+                    <td class="text-center">
+                        @Model.OrderForm.GetEndTime().ToString("dd.MM.yyyy")
+                    </td>
+                    <td class="text-right" style="white-space: nowrap;">@(Model.TotalPrice.ToString("#######.00 zł"))</td>
+                    <td class="text-right">
+                        <div class="btn-group" role="group">
+                            @*TODO: clear cart if deleted room?*@
+                            <a asp-controller="OrderForm" asp-action="RemoveRoomFromOrderForm" asp-route-roomId="@Model.OrderForm.GetRoom().Id"
+                               class="btn btn-primary">
+                                Usuń
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="3" class="text-right">Suma:</td>
+                <td class="text-right">
+                    @Model.TotalPrice.ToString("#######.00 zł")
+                </td>
+                <td></td>
+            </tr>
+        </tfoot>
+    </table>
+
+    <div class="text-center mt-4">
+        <a class="btn btn-lg btn-primary" asp-controller="Reservation" asp-action="Checkout">Rezerwuj</a>
+    </div>
+
+}
+else
+{
+    <div class="jumbotron">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="display-5">Nic tutaj nie ma!</h1>
+                <hr class="my-4">
+                <p class="lead">
+                    <a asp-controller="Room"
+                       asp-action="List"
+                        class="btn btn-primary btn-lg" role="button">Wybierz pokój</a>
+                </p>
+            </div>
+        </div>
+    </div>
+}
+

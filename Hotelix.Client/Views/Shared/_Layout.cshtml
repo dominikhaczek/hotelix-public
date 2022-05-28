@@ -1,0 +1,74 @@
+﻿<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Hotelix</title>
+
+    <link rel="icon" type="image/png" href="~/images/icon-rentaldock.png" />
+
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro">
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="~/lib/datatables/js/jquery.dataTables.js"></script>
+    <link rel="stylesheet" type="text/css" href="~/lib/datatables/css/dataTables.bootstrap4.css">
+    <script type="text/javascript" charset="utf8" src="~/lib/datatables/js/dataTables.bootstrap4.js"></script>
+
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.min.css">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-light border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index"><img src="~/images/logo.png" height="36" /></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                    <ul class="navbar-nav flex-grow-1">
+                        @await Component.InvokeAsync("CategoryMenu")
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @await Component.InvokeAsync("Alert")
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer bg-primary text-light">
+        <div class="container">
+            &copy; 2021 - Hotelix &nbsp; &nbsp;
+            <email address="dhaczek@student.agh.edu.pl" content="Skontaktuj się z nami!"></email> &nbsp; &nbsp;
+            <a asp-area="" asp-controller="Home" asp-action="Privacy" class="text-light">Polityka prywatności</a>
+        </div>
+    </footer>
+
+    <div class="cookies-modal d-none justify-content-center align-items-center">
+        <div class="d-flex align-items-center align-self-center card text-center">
+            <i class="fas fa-cookie-bite"></i>
+            <p>
+                Ta strona używa plików cookies. Korzystając z niej, akceptujesz ich użycie oraz zgadzasz się na naszą
+                <a asp-area="" asp-controller="Home" asp-action="Privacy">Politykę prywatności</a>.
+            </p>
+            <button class="btn btn-primary" type="button">OK</button>
+        </div>
+    </div>
+    
+    @await Component.InvokeAsync("OrderFormSummary")
+
+    @*<script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

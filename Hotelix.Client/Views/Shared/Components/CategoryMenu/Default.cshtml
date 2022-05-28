@@ -1,0 +1,18 @@
+﻿@model IEnumerable<Location>
+
+<li class="nav-item dropdown">
+    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Wybierz Pokój
+    </a>
+    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        @foreach (var location in Model)
+        {
+            <a class="dropdown-item" asp-controller="Room" asp-action="List"
+               asp-route-currentlocation="@location.Id" >
+                @location.Name
+            </a>
+        }
+        <div class="dropdown-divider"></div>
+        <a class="dropdown-item" asp-controller="Room" asp-action="List" asp-route-category="">Zobacz wszystkie</a>
+    </div>
+</li>
